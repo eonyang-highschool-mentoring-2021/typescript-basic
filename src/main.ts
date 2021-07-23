@@ -1,21 +1,20 @@
 class Startup {
+  /**
+    * @name basic_type(기본타입)
+    * @description 타입스크립트의 기본 타입입니다.
+    * 1. 진위값
+    * 2. 숫자
+    * 3. 문자열
+    * 4. 배열
+    * 5. 튜플
+    * 6. 열거형
+    * 7. Any
+    * 8. Void
+    * 9. Null and Undefined
+    * 10. Never
+    * 11. 객체 (Object)
+    */
   public static basicTypeStudy(): number {
-    /**
-     * @name basic_type(기본타입)
-     * 타입스크립트의 기본 타입입니다.
-     * 1. 진위값
-     * 2. 숫자
-     * 3. 문자열
-     * 4. 배열
-     * 5. 튜플
-     * 6. 열거형
-     * 7. Any
-     * 8. Void
-     * 9. Null and Undefined
-     * 10. Never
-     * 11. 객체 (Object)
-     */
-
     /**
      * @name 1.boolean_타입
      * 참/거짓, 진위값을 가지는 타입
