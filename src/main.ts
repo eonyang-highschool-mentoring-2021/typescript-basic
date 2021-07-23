@@ -1,5 +1,5 @@
 class Startup {
-  public static main(): number {
+  public static basicTypeStudy(): number {
     /**
      * @name basic_type(기본타입)
      * 타입스크립트의 기본 타입입니다.
@@ -155,6 +155,132 @@ class Startup {
 
     return 0;
   }
+
+  /**
+    * @name 인터페이스란?
+    * @description TypeScript의 핵심 원칙 중 하나는 타입 검사가 값의 형태에 초점을 맞추고 있다는 점.
+    * 이를 "덕 타이핑(duck typing)" 혹은 "구조적 서브타이핑 (structural subtyping)" 이라고 한다. 
+    * TypeScript에서, 인터페이스는 이런 타입들의 이름을 짓는 역할을 하고 코드 안의 계약을 정의하는 것뿐만 
+    * 아니라 프로젝트 외부에서 사용하는 코드의 계약을 정의하는 강력한 방법
+    */
+  public static interfaceStudy(): number {
+    /**
+     * @name 간단한_예제
+     * 컴파일러는 최소한 필요한 프로퍼티가 있는지와 타입이 잘 맞는지만 검사
+     * 
+     * 타입 검사는 프로퍼티들의 순서를 요구하지 않는다.
+     * 단지 인터페이스가 요구하는 프로퍼티들이 존재하는지와 프로퍼티들이 요구하는 타입을 가졌는지만을 확인
+     */
+    interface LabeledValue {
+      label: string;
+    }
+
+    function printLabel(labeledObj: LabeledValue) {
+      console.log(labeledObj.label);
+    }
+
+    let myObj = { size: 10, label: "Size 10 Object" };
+    printLabel(myObj);
+
+    /**
+     * @name 선택적_프로퍼티(Optionaly)
+     * 어떤 조건에서만 존재하거나 아예 없을 수도 있는 인터페이스의 속성을 정의하는데 사용
+     * 객체 안의 몇 개의 프로퍼티만 채워 함수에 전달하는 "option bags" 같은 패턴을 만들 때 유용
+     * 
+     * 선택적 프로퍼티를 가지는 인터페이스는 다른 인터페이스와 비슷하게 작성되고, 
+     * 선택적 프로퍼티는 선언에서 프로퍼티 이름 끝에 ?를 붙여 표시
+     */
+    interface SquareConfig {
+      color?: string;
+      width?: number;
+    }
+
+    function createSquare(config: SquareConfig): { color: string; area: number } {
+      let newSquare = { color: "white", area: 100 };
+      if (config.color) {
+        newSquare.color = config.color;
+      }
+      if (config.width) {
+        newSquare.area = config.width * config.width;
+      }
+      return newSquare;
+    }
+
+    let mySquare = createSquare({ color: "black" });
+
+    /**
+     * @name 읽기전용_프로퍼티(readonly)
+     * 일부 프로퍼티들은 객체가 처음 생성될 때만 수정 가능해야 할 수 도 있다.
+     * 프로퍼티 이름 앞에 readonly를 넣어서 이를 지정할 수 있다.
+     * 
+     */
+    interface Point {
+      readonly x: number;
+      readonly y: number;
+    }
+    let p1: Point = { x: 10, y: 20 };
+    // p1.x = 5; // 오류!
+    let a: number[] = [1, 2, 3, 4];
+    let ro: ReadonlyArray<number> = a;
+    // ro[0] = 12; // 오류!
+    // ro.push(5); // 오류!
+    // ro.length = 100; // 오류!
+    // a = ro; // 오류!
+    a = ro as number[]; // type assertion 을 통해 형변환 (읽기 가능)
+
+    /**
+     * @name 초과_프로퍼티_검사_(Excess_Property_Checks)
+     * 객체 리터럴은 다른 변수에 할당할 때나 인수로 전달할 때, 
+     * 특별한 처리를 받고, 초과 프로퍼티 검사 (excess property checking)를 받는다.
+     * 
+     * 객체 리터럴이 "대상 타입 (target type)"이 갖고 있지 않은 프로퍼티를 갖고 있으면, 에러가 발생
+     */
+    interface SquareConfig {
+      color?: string;
+      width?: number;
+    }
+
+    function createSquare2(config: SquareConfig): { color: string; area: number } {
+      let newSquare = { color: "white", area: 100 };
+      if (config.color) {
+        newSquare.color = config.color;
+      }
+      if (config.width) {
+        newSquare.area = config.width * config.width;
+      }
+      return newSquare;
+    }
+
+    // let mySquare = createSquare({ colour: "red", width: 100 });
+    interface SquareConfig2 {
+      color?: string;
+      width?: number;
+      [propName: string]: any;
+    }
+
+    function createSquare3(config: SquareConfig2): object {
+      console.log(config);
+      return config;
+    }
+
+    /**
+     * @name 함수_타입_(Function_Types)
+     * 프로퍼티로 객체를 기술하는 것 외에, 인터페이스는 함수 타입을 설명 가능
+     * 올바른 함수 타입 검사를 위해, 매개변수의 이름이 같을 필요는 없다.
+     */
+    interface SearchFunc {
+      (s: string, ss: string): boolean;
+    }
+
+    let mySearch: SearchFunc;
+
+    mySearch = function (source: string, subString: string) {
+      let result = source.search(subString);
+      return result > -1;
+    }
+
+    return 0;
+  }
 }
 
-Startup.main();
+Startup.basicTypeStudy();
