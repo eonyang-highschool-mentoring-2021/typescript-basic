@@ -144,7 +144,7 @@ class Startup {
 
     // never를 반환하는 함수는 함수의 마지막에 도달할 수 없다.
     function infiniteLoop(): never {
-      while (true) {}
+      while (true) { }
     }
 
     /**
@@ -420,7 +420,7 @@ class Startup {
     // let result9 = buildName3("Bob", "Adams", "Sr.");  // 오류, 너무 많은 매개변수
     let result10 = buildName3('Bob', 'Adams'); // 정확함
 
-    /**
+    /** 
      * @name 나머지_매개변수
      * 위의 필수, 선택적, 기본 매개변수는 어찌되었든 하나의 매개변수에 하나의 값이 전달된다.
      * 나머지 매개변수는 함수가 호출 될 때 몇개의 매개변수가 인자로 전달 될 지 모를떄 사용한다.
@@ -492,7 +492,7 @@ class Startup {
     let cardPicker = deck2.createCardPicker();
     let pickedCard = cardPicker(); // 정상 작동
 
-    alert('card: ' + pickedCard.card + ' of ' + pickedCard.suit);
+    // alert('card: ' + pickedCard.card + ' of ' + pickedCard.suit);
 
     /**
      * @name 바인딩된_this_타입정의
@@ -529,7 +529,7 @@ class Startup {
     let cardPicker2 = deckWithType.createCardPicker();
     let pickedCard2 = cardPicker2();
 
-    alert('card: ' + pickedCard2.card + ' of ' + pickedCard2.suit);
+    // alert('card: ' + pickedCard2.card + ' of ' + pickedCard2.suit);
 
 
     /**
@@ -565,16 +565,213 @@ class Startup {
       { suit: 'hearts', card: 4 },
     ];
     let pickedCardWithOverload1 = myDeck[pickCardWithOverload(myDeck)];
-    alert('card: ' + pickedCardWithOverload1.card + ' of ' + pickedCardWithOverload1.suit);
+    // alert('card: ' + pickedCardWithOverload1.card + ' of ' + pickedCardWithOverload1.suit);
 
     let pickedCardWithOverload2 = pickCardWithOverload(15);
-    alert('card: ' + pickedCardWithOverload2.card + ' of ' + pickedCardWithOverload2.suit);
+    // alert('card: ' + pickedCardWithOverload2.card + ' of ' + pickedCardWithOverload2.suit);
     return 0;
   }
 
-  
+  public static variableDeclarationStudy(): number {
+    /**
+     * @name var_변수선언
+     * var 를 통한 변수선언은 JS 에서 쓰이는 방식이다.
+     * 감싸고 있는 블럭과 상관 없이 var 변수를 감싼 모든 모듈, 함수, 네임스페이스, 전역 스코프에서
+     * 접근이 가능하고 중복 선언이 가능하다.
+     * 
+     * 따라서, 이런 특징때문에 반복문/주기 함수와 함께 사용 시 치명적 문제가 발생한다.
+     */
+    var declarationWithVar: number = 30;
+    var declarationWithVar: number = 22;
+    // var declarationWithVar: string = 'aa'; // 오류! type 은 일치해야함.
+
+    function reDeclarationWithVar(): void {
+      var outerVar = 30;
+      {
+        var innerVar = 50;
+      }
+
+      console.log(outerVar);
+      console.log(innerVar);
+    }
+
+    /**
+     * @name let_변수선언
+     * var 과 동일하게 변수 선언을 위한 선언자이다.
+     * var 과 다르게 선언된 블록 내부에서만 접근이 가능한 블록 스코핑을 사용.
+     * 
+     * 하지만, 접근이 내부에서만 가능할 뿐 메모리상에 해당 변수는 존재한다.
+     * 지역 변수 같은 전역 변수의 개념. 가장 일반적인 변수선언이다.
+     */
+    let declarationWithLet: number = 22;
+    // let declarationWithLet: number = 33; // 오류! let 은 동일명을 통해 재선언 불가
+
+    function reDeclarationWithLet(): void {
+      let outerLet = 30;
+      {
+        let innerLet = 50;
+      }
+
+      console.log(outerLet);
+      // console.log(innerLet); // 오류! let 은 정의된 동수준의 블록에서만 접근
+    }
+
+    /**
+     * @name const_변수선언
+     * let 과 대부분이 동일하나 다른점은 변수 값 바인딩 이후 변경이 불가능하다는 점.
+     * 이것은 "재할당" 이 불가능함을 의미한다.
+     * 
+     * 주의, 객체가 참조하는 값이 불변인 것은 절대 아니다.
+     */
+    const declarationWithConst = 9;
+    const declarationWithConst2 = {
+      name: "김법우",
+      age: 24
+    }
+
+    /* 오류 발생! const 의 주체인 const_obj 의 수정을 시도
+    kitty = {
+        name : ""..
+    }
+    */
+
+    // 가능 obj 의 멤버인 age는 수정 가능
+    declarationWithConst2.age = 15;
+
+
+    /**
+     * @name 배열_구조분해
+     * 여러 변수들을 묶어놓고 해당 변수들에게 배열의 값을 차례로 대입하는
+     * 작업에 편의를 제공한다.
+     * 
+     * 묶여진 변수들간의 관계는 존재하지 않는다.
+     */
+    // basic case
+    let input = [1, 2];
+    let input2 = [2, 1];
+    let [first, second, third_2] = input;
+    // first = input[0], seconde = input[1]
+
+    // re assign with destructing
+    [first, second] = input2;
+    //[first , second] = ["string 1","stirng 2"]; 
+    // 중요 ! 첫 대입에서 타입이 정해진다 , 당연
+
+    // function parameter
+    // 함수 인자의 타입은 number[2] 와 동일하다.
+    // 하지만 함수 내부인자로는 first , second 라는 서로 다른
+    // 변수를 내려 받는다.(배열과 혼동 하지 말것)
+    function f([first, second]: [number, number]) {
+      console.log(first);
+      console.log(second);
+    }
+    f([1, 2]);
+
+    // various
+    // 앞의 2자리를 비워 1,2 를 무시
+    let [, , third, fourth] = [1, 2, 3, 4];    // 배열의 인덱스와 구조분해된 
+    // 변수에 매칭시킨다.
+    let [one, ...rest] = [1, 2, 3, 4];
+    // 뒤의 3자리를 ... 연산자를 통해 배열로 입력받음
+    // 당연히 rest 의 타입은 number[3]
+
+    /**
+     * @name 객체_구조분해
+     * 위 배열의 구조분해와 마찬가지이다.
+     * 묶여진 객체의 key 와 value 쌍을 "선언없이" 분해하여 다른 변수에
+     * 할당 할 수 있다.
+     */
+
+    const objectA = {
+      a: 'A',
+      b: 'B',
+      c: 'C',
+      d: 'D'
+    };
+    var { a, b, c, d } = objectA; // "선언없이" 란 a,b,c,d 의 순차 선언이 없다는 의미.
+    var { b, a, c, d } = objectA;
+
+    // 기존 let {a,b} = obj
+    // property 이름 변경
+    const obj = {
+      a: 'A',
+      b: 'B'
+    }
+    let { a: newName1, b: newName2 } = obj;
+    console.log(newName1);
+    // property 타입 변경 안됨 어떻게 하는?
+    //let {a ,b} : {a:number , b:string} = obj;
+    console.log("a:" + a);
+
+    // Defualt value
+    // property 가 정의 되어 있지 않을 경우 기본 값을 사용하도록 한다
+    function keepWholeObject(wholeObject: { a: string, b?: string }): void {
+      let { a, b = 1001 } = wholeObject;
+      // b 는 ? 연산자를 통해 선택적 사용가능하나 default 값을 지정하기위해
+      // 1001 을 대입.
+      console.log("a : " + a + ", b : " + b);
+    }
+
+    keepWholeObject({ a: "a is string", b: "Is b string too??" });
+
+
+    /**
+     * @name 함수선언과_구조분해
+     * 구조분해는 함수 선언에도 사용이 가능하다.
+     * 이는 간단한 경우에 한해서 뛰어난 코드 가독성을 가지게 된다.
+     * 
+     * 하지만 매개변수에는 기본값을 명시하는것이 좋으며 구조분해와 함께라면
+     * 이것이 어려울 수 있다.
+     * 
+     * 주의! 구조 분해 패턴을 반드시 기본값 앞에 삽이해야 한다.
+     */
+    type C = { a: string, b?: string };    // 구조 분해 패턴 !
+    // 타입 C는 프로퍼티 a에게 string type 을,
+    // 프로퍼티 b에게 string type or undefined 를 할당한다.
+    function func_with_dest({ a, b }: C): void {
+      console.log(a + " " + b);
+    }
+    func_with_dest({ a: "hello ,", b: "world!" });
+
+
+    /**
+     * @name 전개
+     * 구조 분해와 반대의 개념이다. 배열을 다른 배열안에,
+     * 객체를 다른 객체 안에 전개한다.
+     */
+    // 배열 전개
+    let arr1 = [1, 2]; // arr1 안에 number[2]의 원소 1,2 를 전개
+    let arr2 = [3, 4]; // arr2 안에 number[2]의 원소 3,4 를 전개
+    let arr3 = [0, ...arr1, ...arr2, 5];
+    // arr3 안에 number[2],number[2]의 원소 1,2,3,4를 전개
+    console.log("array spread : " + arr3);
+
+    // 객체 전개
+    // 동일 한 name property 를 가지는 객체들을 spread 할 경우
+    // 하나의 객체로 spread 될 때 뒤에 오는 객체가 덮어쓰게된다
+    // 이는 찾기 어려운 문제를 발생 시킬 가능성이 높다
+
+    let originObj = {
+      name: "김법우",
+      age: 24
+    }
+    let addtionalObj = {
+      run: true
+    }
+    let spreadObjs = {
+      ...originObj,
+      ...addtionalObj,
+      food: "buger"
+    }
+    // 즉 여기서 spreadObjs 는 프로퍼티 name, age, run, food 를 가진다.
+    console.log(spreadObjs);
+
+    return 0;
+  }
 }
 
 // Startup.basicTypeStudy();
 // Startup.interfaceStudy();
 Startup.functionStudy();
+Startup.variableDeclarationStudy();
+
