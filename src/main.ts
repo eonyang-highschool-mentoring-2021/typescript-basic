@@ -572,6 +572,16 @@ class Startup {
     return 0;
   }
 
+  /**
+   * @name 변수의_선언과_구조분해/전개
+   * @description Typescript 에서 변수를 선언하는 var, let, const 명령어에 대해 알고 그 차이를 익힌다.
+   * 이 차이는 scope 나 불변성에 핵심이 있다.
+   * 
+   * 배열의 구조분해/전개, 객체의 구조분해/전개 의 개념에 대해 이해한다.
+   * 구조분해와 전개는 실제 프로그램을 작성하는 과정에서 큰 편의와 가독성을 부여한다.
+   * 
+   * react 와 같은 경우 functional component 의 useState 사용시 필수적으로 이해해야하는 부분이기도 하다.
+   */
   public static variableDeclarationStudy(): number {
     /**
      * @name var_변수선언
